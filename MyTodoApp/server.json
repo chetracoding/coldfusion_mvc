@@ -1,0 +1,14 @@
+{
+    "name":"MyTodoApp",
+    "app":{
+        "cfengine":"Adobe@2021"
+    },
+    "web":{
+        "http":{
+            "port":"7000"
+        }
+    },
+    "jvm":{
+        "heapSize":512
+    }
+}

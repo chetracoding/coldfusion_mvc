@@ -1,5 +1,6 @@
-<cfinclude template="../layout/Header.cfm">
+<cfimport prefix="ct" taglib="/views/customTags">
 
+<ct:PageLayout title="Sign in into account" isDisplayHeader="false">
 <section class="vh-100 bg-primary-on-container">
   <div class="container h-100">
     <div class="d-flex justify-content-center align-items-center h-100">
@@ -7,7 +8,7 @@
           <div class="col-12 d-flex align-items-center">
               <div class="card-body p-4 p-lg-5 text-black">
 
-                <form method="POST" action="../../controllers/auth/AuthController.cfc?method=login">
+                <cfform name="loginform" method="POST" action="../../controllers/auth/AuthController.cfc?method=login">
 
                   <div class="d-flex align-items-center mb-3 pb-1">
                     <i class="fas fa-check-circle fa-2x me-3"></i>
@@ -17,11 +18,11 @@
                   <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Sign into your account</h5>
 
                   <div class="form-outline my-2">
-                    <input type="email" name="email" value="" id="form2Example17" class="form-control form-control-lg" placeholder="Email" />
+                    <cfinput type="text" name="email" required="yes" message="Email field is required." class="form-control form-control-lg" placeholder="Email" >
                   </div>
 
                   <div class="form-outline my-2">
-                    <input type="password" name="password" value="" id="form2Example27" class="form-control form-control-lg" placeholder="Password" />
+                    <cfinput type="password" name="password" required="yes" message="Password field is required." class="form-control form-control-lg" placeholder="Password" >
                   </div>
 
                   <div class="d-flex justify-content-end">
@@ -32,7 +33,7 @@
                   <p class="mb-5 pb-lg-2" style="color: #393f81;">Don't have an account? <a href="RegisterView.cfm" class="text-decoration-none" style="color: #393f81;">Register here</a></p>
                   <a href="#!" class="small text-muted">Terms of use.</a>
                   <a href="#!" class="small text-muted">Privacy policy</a>
-                </form>
+                </cfform>
 
               </div>
             </div>
@@ -40,5 +41,4 @@
     </div>
   </div>
 </section>
-
-<cfinclude template="../layout/Footer.cfm">
+</ct:PageLayout>

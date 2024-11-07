@@ -4,7 +4,7 @@ component {
     return this;
   }
 
-  public function select(numeric userId, struct filter, numeric pageSize) {
+  public function select(numeric userId, struct filter, numeric limit, numeric offset) {
     filter = arguments.filter
     var sql = "SELECT id, title, description, is_done FROM todos WHERE fk_user_id = :userId ";
     var params = { userId = { value = arguments.userId, cfsqltype="cf_sql_numeric" } };
@@ -27,8 +27,14 @@ component {
 
     var count = queryExecute( sql, params );
 
-    sql = sql & " ORDER BY id DESC LIMIT :pageSize";
-    params.pageSize = {value = arguments.pageSize, cfsqltype="cf_sql_numeric"};
+    if (arguments.limit == 0) {
+      sql = sql & " ORDER BY id DESC";
+    } else {
+      sql = sql & " ORDER BY id DESC LIMIT :limit OFFSET :offset";
+    }
+
+    params.limit = {value = arguments.limit, cfsqltype="cf_sql_numeric"};
+    params.offset = {value = arguments.offset, cfsqltype="cf_sql_numeric"};
 
     var rows = queryExecute( sql, params );
 

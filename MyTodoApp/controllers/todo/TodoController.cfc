@@ -7,19 +7,20 @@ component {
   remote function getTodos( struct filter = {} ) {
     try {
       var filterItems = {}
-      var pageSize = 12;
+      var limit = arguments.filter.keyExists("limit") ? arguments.filter.limit : 12;
+      var offset = 0;
 
       if (url.keyExists("q")) {
         filterItems.keyword = url.q
       }
       if (url.keyExists("p") AND isNumeric(url.p)) {
-        pageSize = url.p * pageSize;
+        offset = (url.p - 1) * limit;
       }
       if (arguments.filter.keyExists("isDone")) {
         filterItems.isDone = arguments.filter.isDone
       }
 
-      return new model.Todo().select(session.userId, filterItems, pageSize);
+      return new model.Todo().select(session.userId, filterItems, limit, offset);
     }
     catch (any e) {
       writeDump(e)

@@ -1,9 +1,12 @@
 <cfset page = isDefined( "url.p" ) ? url.p : 1>
+<cfset prevKeyword = isDefined("url.q") ? url.q : "">
 <cfset todos = new controllers.todo.TodoController().getTodos({ isDone = false })>
-<cfset showMore = todos.rows.len() LT todos.count AND isNumeric(page)>
+<cfset limit = 12>
 
 <div class="contrainer mt-2 mx-2">
-  <nav class="navbarm d-flex justify-content-end">
+  <nav class="navbarm d-flex gap-2 justify-content-end">
+      <a class="btn btn-outline-primary" href="/controllers/export/ExportController.cfc?method=exportTodoExcel" role="button">Export Excel</a>
+      <a class="btn btn-outline-primary" href="/lib/pdf/ExportTodoPdf.cfm" role="button">Export PDF</a>
       <a class="btn btn-primary" href="/views/todo/TodoEditView.cfm" role="button">Add more</a>
   </nav>
 
@@ -35,11 +38,10 @@
       </cfif>
   </div>
 
-  <cfif showMore>
-    <nav class="navbar fixed-bottom">
-        <div class="container-fluid d-flex justify-content-end">
-            <a class="btn btn-sm btn-outline-secondary" href="?p=<cfoutput>#page + 1#</cfoutput>">Load more ...</a>
-        </div>
-    </nav>
-  </cfif>
+<nav class="navbar fixed-bottom">
+    <div class="container-fluid d-flex justify-content-end">
+        <a class="btn btn-sm btn-outline-secondary <cfoutput>#page == 1 ? "disabled" : ""#</cfoutput>" href="?p=<cfoutput>#page - 1#</cfoutput>&q=<cfoutput>#prevKeyword#</cfoutput>">Previous page</a>
+        <a class="btn btn-sm btn-outline-secondary <cfoutput>#page * limit gte todos.count ? "disabled" : ""#</cfoutput>" href="?p=<cfoutput>#page + 1#</cfoutput>&q=<cfoutput>#prevKeyword#</cfoutput>">Next page</a>
+    </div>
+</nav>
 </div>

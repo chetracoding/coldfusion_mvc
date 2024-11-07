@@ -1,10 +1,10 @@
+<cfimport prefix="ct" taglib="/views/customTags">
 <cfset page = isDefined( "url.p" ) ? url.p : 1>
+<cfset prevKeyword = isDefined("url.q") ? url.q : "">
 <cfset todos = new controllers.todo.TodoController().getTodos({ isDone = true })>
-<cfset showMore = todos.rows.len() LT todos.count AND isNumeric(page)>
+<cfset limit = 12>
 
-<cfinclude template = "/views/layout/Header.cfm">
-<cfinclude template = "/views/layout/Nav.cfm">
-
+<ct:PageLayout title="History">
 <div class="contrainer mt-2 mx-2">
   <div class="row">
     <cfif todos.count>
@@ -29,13 +29,11 @@
         <h5 class="text-center">Don't have any todo.</h5>
       </cfif>
   </div>
-  <cfif showMore>
-    <nav class="navbar fixed-bottom">
-        <div class="container-fluid d-flex justify-content-end">
-            <a class="btn btn-sm btn-outline-secondary" href="?p=<cfoutput>#page + 1#</cfoutput>">Load more ...</a>
-        </div>
-    </nav>
-  </cfif>
+  <nav class="navbar fixed-bottom">
+    <div class="container-fluid d-flex justify-content-end">
+        <a class="btn btn-sm btn-outline-secondary <cfoutput>#page == 1 ? "disabled" : ""#</cfoutput>" href="?p=<cfoutput>#page - 1#</cfoutput>&q=<cfoutput>#prevKeyword#</cfoutput>">Previous page</a>
+        <a class="btn btn-sm btn-outline-secondary <cfoutput>#page * limit gte todos.count ? "disabled" : ""#</cfoutput>" href="?p=<cfoutput>#page + 1#</cfoutput>&q=<cfoutput>#prevKeyword#</cfoutput>">Next page</a>
+    </div>
+</nav>
 </div>
-
-<cfinclude template = "/views/layout/Footer.cfm">
+</ct:PageLayout>

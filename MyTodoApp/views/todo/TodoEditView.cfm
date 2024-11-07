@@ -1,3 +1,4 @@
+<cfimport prefix="ct" taglib="/views/customTags">
 <cfscript>
   isCreated = !isDefined( "url.id" );
   action = "../../controllers/todo/TodoController.cfc?method=addTodo";
@@ -14,21 +15,7 @@
   }
 </cfscript>
 
-<cfinclude template="../layout/Header.cfm">
-
-<nav class="navbar navbar-expand-lg bg-primary">
-  <div class="container-fluid">
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo01"
-          aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse d-flex justify-content-between" id="navbarTogglerDemo01">
-          <a class="text-white navbar-brand" href="/">Tick Tick</a>
-          <a href="/controllers/auth/AuthController.cfc?method=logout" class="btn btn-outline-secondary">Log out</a>
-      </div>
-  </div>
-</nav>
-
+<ct:PageLayout isDisplaySearch="false">
 <div class="container h-100 d-flex justify-content-center">
   <div class="card my-4 text-center" style="width: 40rem; border-radius: 0.5rem;">
     <div class="card-header fw-bolder py-2 bg-primary-on-container text-primary">
@@ -39,9 +26,9 @@
       </cfif>
     </div>
     <div class="card-body">
-      <form name="form" method="POST" action="<cfoutput>#action#</cfoutput>">
+      <cfform name="todoForm" method="POST" action="#action#">
         <div class="mb-3 form-floating">
-          <input name="title" type="text" value="<cfoutput>#form.title#</cfoutput>" id="floatingInput" class="form-control" placeholder="Title">
+          <cfinput type="text" name="title" value="#form.title#" required="yes" message="Title field is required." class="form-control form-control-lg" placeholder="Title" >
           <label for="floatingInput">Title</label>
         </div>
         <div class="mb-3">
@@ -54,9 +41,8 @@
           <a href="/" class="btn btn-outline-secondary">Back</a>
           <button name="save" type="submit" class="btn btn-primary px-4" value="Add">Save</button>
         </div>
-      </form>
+      </cfform>
     </div>
   </div>
 </div>
-
-<cfinclude template="../layout/Footer.cfm">
+</ct:PageLayout>

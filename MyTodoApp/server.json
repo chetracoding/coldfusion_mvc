@@ -1,11 +1,20 @@
 {
-    "name":"MyTodoApp",
+    "name":"ColdFusionMVC",
     "app":{
-        "cfengine":"Adobe@2021"
+        "cfengine":"adobe@2023"
     },
     "web":{
+        "directoryBrowsing":true,
+        "webAdminEnabled":true,
+        "webAdminPassword":"${adminPassword}",
+        "allowCFAdmin":true,
+        "host":"${HOST}",
         "http":{
-            "port":"7000"
+            "port":"${PORT}"
+        },
+        "SSL":{
+            "enable":"${SSL}",
+            "port":"${SSLPORT}"
         }
     },
     "jvm":{
